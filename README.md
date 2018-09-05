@@ -1,6 +1,7 @@
-# startapp
+# StartApp
+App used for reading sensors values during rocket engines starts
 
-#Install
+# Install
 1. run ```git clone https://github.com/Tyraka/startapp.git```
 2. change directory to downloaded folder ```cd startapp```
 3. install all dependencies ```npm install```
