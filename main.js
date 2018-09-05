@@ -7,6 +7,8 @@ const {app, BrowserWindow} = require('electron')
     // and load the index.html of the app.
     win.loadFile('./src/index.html')
 
+    win.openDevTools();
+    
     win.on('closed', () => {
       // Dereference the window objec      
       win = null
