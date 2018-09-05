@@ -8,6 +8,7 @@
 ``` javascript
 var myPort = new SerialPort("COM4", {
   baudRate: 9600,
-})```
+})
+```
 5. start the server ```node server.js```
 6. start the app ```npm start```
