@@ -1,0 +1,23 @@
+{
+  "name": "startapp",
+  "version": "1.0.0",
+  "description": "Rocket engines testing app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tyraka/startapp.git"
+  },
+  "author": "Jacob Kaczmarek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tyraka/startapp/issues"
+  },
+  "homepage": "https://github.com/Tyraka/startapp#readme",
+  "dependencies": {
+    "electron": "^2.0.8"
+  }
+}
