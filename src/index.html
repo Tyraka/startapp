@@ -8,9 +8,28 @@
 </head>
 
 <body>
-    <div class="container">
-        <canvas id="chart" width="600px" height="400px"></canvas>
-        <a id="btn" class="startBtn" href="#">Launch</a>
+    <div class="grid-container">
+        <div class="tempContainer">
+            <h1>Temperature</h1>
+            <div id="tempbox">
+                <div id="tempbar"></div>
+            </div>
+        </div>
+        <div class="thurstContainer">
+            <h1>Thrust</h1>
+            <div id="tempbox">
+                <div id="tempbar"></div>
+            </div>
+        </div>
+        <div class="graphContainer">
+            <div>
+                <canvas id="chart"></canvas>
+            </div>
+        </div>
+        <div class="btnContainer">
+            <button onClick="launch()" id="btn" class="startBtn">Launch</a>
+            <button onClick="stop()" class="stopBtn">Stop</a>
+        </div>
     </div>
     <script src="./graph.js"></script>
 </body>

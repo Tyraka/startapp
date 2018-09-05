@@ -1,19 +1,72 @@
 html {
     background: #485460;
+    font-family: "Open Sans", Helvetica;
+    color: #fff;
 }
 
+h1 {
+    margin: 5px;
+}
 
-canvas {
-    width: 600px !important;
-    height: 400px !important;
+#tempbox {
+    width: 80%;
+    background: #999999;
+    border-radius: 3px;
+}
+
+#tempbar {
+    width: 0%;
+    background: rgb(255, 99, 132);
+    height: 35px;
+    border-radius: 3px;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 15% 15% auto;
+}
+
+.temp {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.thurst {
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.graph {
+   grid-column: 2;
+   grid-row: 2 / span 2;
+}
+
+.btnContainer {
+    grid-column: 2;
+    grid-row: 1;
 }
 
 .startBtn {
-    background: #ff5e57;
+    background: #6DB97B;
     color: #fff;
-    border: 1px solid #823431;
+    border: 1px solid #243E29;
     border-radius: 3px;
     text-decoration: none;
     cursor: pointer;
     padding: 15px 33px;
+}
+
+.stopBtn {
+    background: #ff5e57;
+    color: #fff;
+    border: 1px solid #82344f;
+    border-radius: 3px;
+    text-decoration: none;
+    cursor: pointer;
+    padding: 15px 33px;
+}
+
+button:focus {
+    outline:0; 
 }

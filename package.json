@@ -18,7 +18,10 @@
   },
   "homepage": "https://github.com/Tyraka/startapp#readme",
   "dependencies": {
+    "axios": "^0.18.0",
     "chart.js": "^2.7.2",
-    "electron": "^2.0.8"
+    "electron": "^2.0.8",
+    "http": "0.0.0",
+    "serialport": "^7.0.2"
   }
 }
