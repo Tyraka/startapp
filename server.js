@@ -12,12 +12,12 @@ function onRequest(request, response) {
   response.end();
 }
 function onData(data) {
-    inByte = data;
+    inByte = data.toString('ascii');
     console.log(inByte);  
 }
 
 var myPort = new SerialPort("COM4", {
-  baudRate: 9600,
+  baudRate: 115200,
 })
 
 myPort.on('data', onData);
