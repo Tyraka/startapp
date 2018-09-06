@@ -5,6 +5,7 @@ const serverUrl = 'http://127.0.0.1:8888';
 
 var tempReads = [];
 var thrustReads = [];
+var launched = false;
 
 function sendData() {
     axios.post(serverUrl)
@@ -19,6 +20,8 @@ function getData() {
                 if(Number.isInteger(Number(data.data[0])) && Number.isInteger(Number(data.data[1]))){
                     thrustReads.push(data.data[0]);
                     tempReads.push(data.data[1]);
+                    document.getElementById('thrustbar').style.width = data.data[0]*100+'%';
+                    document.getElementById('tempbar').style.width = data.data[1]*100+'%';
                 }
                 updateChart(myChart);
             }
@@ -27,7 +30,8 @@ function getData() {
 }
 
 function updateChart(chart) {
-    chart.data.labels.push(chart.data.datasets[0].data.length + 1);
+    //correct time labaling
+    chart.data.labels.push((chart.data.datasets[0].data.length + 1)/4);
     chart.data.datasets[0].data = tempReads;
     chart.data.datasets[1].data = thrustReads;
     chart.update();
@@ -62,17 +66,23 @@ var interval;
 
 function launch() {
     launched = true;
-    interval = setInterval(getData, 200);
+    interval = setInterval(getData, 250);
     sendData();
+    startBtn = document.getElementById('start');
+    startBtn.classList.remove('startBtn');
+    startBtn.classList.add('stopBtn');
+    startBtn.innerHTML = 'Stop';
 }
 
 function stop() {
     launched = false;
     clearInterval(interval);
+    startBtn = document.getElementById('start');
+    startBtn.classList.remove('stopBtn');
+    startBtn.classList.add('startBtn');
+    startBtn.innerHTML = 'Start';
 }
 
-
-var btn = document.getElementById("btn");
 var ctx = document.getElementById("chart").getContext('2d');
 
 var myChart = new Chart(ctx, {

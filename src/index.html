@@ -17,8 +17,8 @@
         </div>
         <div class="thurstContainer">
             <h1>Thrust</h1>
-            <div id="tempbox">
-                <div id="tempbar"></div>
+            <div id="thrustbox">
+                <div id="thrustbar"></div>
             </div>
         </div>
         <div class="graphContainer">
@@ -27,8 +27,7 @@
             </div>
         </div>
         <div class="btnContainer">
-            <button onClick="launch()" id="btn" class="startBtn">Launch</a>
-            <button onClick="stop()" class="stopBtn">Stop</a>
+            <button onClick="launched ? stop() : launch()" id="start" class="startBtn">Launch</a>
             <button onClick="downloadCSV()" id="download" class="downloadBtn">Save</a>
         </div>
     </div>
