@@ -14,9 +14,12 @@ function getData() {
     axios.get(serverUrl)
         .then(data => {
             if (!Number.isInteger(data.data)) {
-                data.data = data.data.split()
-                thrustReads.push(data.data[0]);
-                tempReads.push(data.data[1]);
+                console.log(data.data);
+                data.data = data.data.split(",")
+                if(Number.isInteger(Number(data.data[0])) && Number.isInteger(Number(data.data[1]))){
+                    thrustReads.push(data.data[0]);
+                    tempReads.push(data.data[1]);
+                }
                 updateChart(myChart);
             }
         })
@@ -31,14 +34,14 @@ function updateChart(chart) {
 }
 
 function toCsv() {
-    var csv = '';
-    for (var i = 0; i < tempReads.length; i++){
-        csv += tempReads[i] + ',' + thrustReads[i];
+    var csv = 'thrust, temp\r\n';
+    for(var i = 0; i < tempReads.length; i++){
+        csv += thrustReads[i] + ',' + tempReads[i];
     }
     return csv;
 }
 
-function downloadCSV() {  
+function downloadCSV() {
     var data, filename, link;
     var csv = toCsv();
 
@@ -48,25 +51,24 @@ function downloadCSV() {
         csv = 'data:text/csv;charset=utf-8,' + csv;
     }
     data = encodeURI(csv);
-
     link = document.createElement('a');
     link.setAttribute('href', data);
     link.setAttribute('download', filename);
     link.click();
+
 }
 
 var interval;
 
 function launch() {
     launched = true;
-    interval = setInterval(getData, 50);
+    interval = setInterval(getData, 200);
     sendData();
 }
 
 function stop() {
     launched = false;
     clearInterval(interval);
-    downloadCSV();
 }
 
 

@@ -13,7 +13,6 @@ function onRequest(request, response) {
 }
 function onData(data) {
     inByte = data.toString('ascii');
-    console.log(inByte);  
 }
 
 var myPort = new SerialPort("COM4", {
