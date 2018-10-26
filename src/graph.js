@@ -1,5 +1,6 @@
 const Chart = require('chart.js');
 const axios = require('axios');
+const fs = require('fs');
 
 const serverUrl = 'http://127.0.0.1:8888';
 
@@ -17,21 +18,23 @@ function getData() {
             if (!Number.isInteger(data.data)) {
                 console.log(data.data);
                 data.data = data.data.split(",")
-                if(Number.isInteger(Number(data.data[0])) && Number.isInteger(Number(data.data[1]))){
+                if (Number.isInteger(Number(data.data[0])) && Number.isInteger(Number(data.data[1]))) {
                     thrustReads.push(data.data[0]);
                     tempReads.push(data.data[1]);
-                    document.getElementById('thrustbar').style.width = data.data[0]*100+'%';
-                    document.getElementById('tempbar').style.width = data.data[1]*100+'%';
+                    document.getElementById('thrustbar').style.width = data.data[0] * 100 + '%';
+                    document.getElementById('tempbar').style.width = data.data[1] * 100 + '%';
                 }
                 updateChart(myChart);
             }
         })
-        .catch(err => { console.log(err) });
+        .catch(err => {
+            console.log(err)
+        });
 }
 
 function updateChart(chart) {
     //correct time labaling
-    chart.data.labels.push((chart.data.datasets[0].data.length + 1)/4);
+    chart.data.labels.push((chart.data.datasets[0].data.length + 1) / 4);
     chart.data.datasets[0].data = tempReads;
     chart.data.datasets[1].data = thrustReads;
     chart.update();
@@ -39,7 +42,7 @@ function updateChart(chart) {
 
 function toCsv() {
     var csv = 'thrust, temp\r\n';
-    for(var i = 0; i < tempReads.length; i++){
+    for (var i = 0; i < tempReads.length; i++) {
         csv += thrustReads[i] + ',' + tempReads[i];
     }
     return csv;
@@ -59,6 +62,26 @@ function downloadCSV() {
     link.setAttribute('href', data);
     link.setAttribute('download', filename);
     link.click();
+}
+
+function loadFromFile() {
+    var data;
+    fs.readFile('thrust.txt', 'utf8', (err, thrustContent) => {
+        if (err) {
+            throw err;
+        }
+
+        thrustReads = thrustContent.split('\n');
+        fs.readFile('temp.txt', 'utf8', (err, content) => {
+            if (err) {
+                throw err;
+            }
+            tempReads = content.split('\n');
+            for (i = 0; i < tempReads.length; i++) {
+                updateChart(myChart);
+            }
+        })
+    })
 
 }
 

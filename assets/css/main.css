@@ -60,19 +60,20 @@ h1 {
     top: 50%;
     left: 50%;
     grid-column: 2;
-    grid-row: 1 / span 2;
+    grid-row: 1;
 }
 
 .startBtn {
     background: #6DB97B;
     color: #fff;
     border: 1px solid #243E29;
+    width: 150px;
     border-radius: 3px;
     font-family: Helvetica;
     font-size: 20pt;
     text-decoration: none;
     cursor: pointer;
-    margin: 40px;
+    margin: 30px;
     padding: 15px 33px;
 }
 
@@ -80,12 +81,27 @@ h1 {
     background: #6DB9BB;
     color: #fff;
     border: 1px solid #243E2B;
+    width: 120px;
     border-radius: 3px;
     font-family: Helvetica;
-    font-size: 20pt;
+    font-size: 18pt;
     text-decoration: none;
     cursor: pointer;
-    margin: 40px;
+    margin: 30px;
+    padding: 15px 33px;
+}
+
+.loadBtn {
+    background: rgb(170, 123, 34);
+    color: #fff;
+    border: 1px solid #243E2B;
+    width: 120px;
+    border-radius: 3px;
+    font-family: Helvetica;
+    font-size: 18pt;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 30px;
     padding: 15px 33px;
 }
 
@@ -93,12 +109,13 @@ h1 {
     background: #ff5e57;
     color: #fff;
     border: 1px solid #82344f;
+    width: 120px;
     border-radius: 3px;
     font-family: Helvetica;
-    font-size: 20pt;
+    font-size: 18pt;
     text-decoration: none;
     cursor: pointer;
-    margin: 40px;
+    margin: 30px;
     padding: 15px 33px;
 }
 
