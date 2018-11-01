@@ -9,30 +9,17 @@
 
 <body>
     <div class="grid-container">
-        <div class="tempContainer">
-            <h1>Temperature</h1>
-            <div id="tempbox">
-                <div id="tempbar"></div>
-            </div>
-        </div>
-        <div class="thurstContainer">
-            <h1>Thrust</h1>
-            <div id="thrustbox">
-                <div id="thrustbar"></div>
-            </div>
-        </div>
-        <div class="graphContainer">
-            <div>
-                <canvas id="chart"></canvas>
-            </div>
-        </div>
         <div class="btnContainer">
-            <button onClick="launched ? stop() : launch()" id="start" class="startBtn">Launch</button>
-            <button onClick="downloadCSV()" id="download" class="downloadBtn">Save</button>
-            <button onClick="loadFromFile()" id="load" class="loadBtn">Load</button>
+            <button id="load" class="btn">Load</button>
+            <button id="reset" class="btn">Reset</button>
+        </div>
+        <div class="resultsContainer">
+            <H1 id="spImp"></H1>
+        </div>
+        <div class="graphContainer" style="display: none">
+            <canvas id="chart"></canvas>
         </div>
     </div>
     <script src="./graph.js"></script>
 </body>
-
 </html>

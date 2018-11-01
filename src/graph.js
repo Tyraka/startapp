@@ -1,113 +1,87 @@
 const Chart = require('chart.js');
-const axios = require('axios');
 const fs = require('fs');
-
-const serverUrl = 'http://127.0.0.1:8888';
+const $ = require('jQuery');
 
 var tempReads = [];
 var thrustReads = [];
-var launched = false;
+var timeReads = [];
 
-function sendData() {
-    axios.post(serverUrl)
-}
+// Add functionality to buttons
+$("#load").click(() => {
+    loadFromFile();
+    $(".graphContainer").show();
+    $("#spImp").show();
+});
+$("#reset").click(() => {
+    resetData();
+    updateChart(myChart);
+    $("#spImp").hide();
+});
 
-function getData() {
-    axios.get(serverUrl)
-        .then(data => {
-            if (!Number.isInteger(data.data)) {
-                console.log(data.data);
-                data.data = data.data.split(",")
-                if (Number.isInteger(Number(data.data[0])) && Number.isInteger(Number(data.data[1]))) {
-                    thrustReads.push(data.data[0]);
-                    tempReads.push(data.data[1]);
-                    document.getElementById('thrustbar').style.width = data.data[0] * 100 + '%';
-                    document.getElementById('tempbar').style.width = data.data[1] * 100 + '%';
-                }
-                updateChart(myChart);
-            }
-        })
-        .catch(err => {
-            console.log(err)
-        });
-}
-
+// Updates chart
 function updateChart(chart) {
-    //correct time labaling
-    chart.data.labels.push((chart.data.datasets[0].data.length + 1) / 4);
+    chart.data.labels = timeReads;
     chart.data.datasets[0].data = tempReads;
     chart.data.datasets[1].data = thrustReads;
     chart.update();
 }
 
-function toCsv() {
-    var csv = 'thrust, temp\r\n';
-    for (var i = 0; i < tempReads.length; i++) {
-        csv += thrustReads[i] + ',' + tempReads[i];
-    }
-    return csv;
-}
-
-function downloadCSV() {
-    var data, filename, link;
-    var csv = toCsv();
-
-    filename = 'readouts.csv';
-
-    if (!csv.match(/^data:text\/csv/i)) {
-        csv = 'data:text/csv;charset=utf-8,' + csv;
-    }
-    data = encodeURI(csv);
-    link = document.createElement('a');
-    link.setAttribute('href', data);
-    link.setAttribute('download', filename);
-    link.click();
-}
-
+// Loads launch data from JSON file
 function loadFromFile() {
-    var data;
-    fs.readFile('thrust.txt', 'utf8', (err, thrustContent) => {
+    if(tempReads.length != 0) { return; }
+    fs.readFile('readouts.json', 'utf8', (err, readouts) => {
         if (err) {
             throw err;
         }
+        
+        var parsedReadouts = JSON.parse(readouts);
 
-        thrustReads = thrustContent.split('\n');
-        fs.readFile('temp.txt', 'utf8', (err, content) => {
-            if (err) {
-                throw err;
-            }
-            tempReads = content.split('\n');
-            for (i = 0; i < tempReads.length; i++) {
-                updateChart(myChart);
-            }
-        })
-    })
-
+        for (var index in parsedReadouts) {
+            tempReads.push(parsedReadouts[index].temp);
+            thrustReads.push(parsedReadouts[index].thrust);
+            timeReads.push(parsedReadouts[index].time/1000);
+        }        
+        updateChart(myChart);
+        $("#spImp").text("Special impuls: " + specificImpuls());
+    });
 }
 
-var interval;
-
-function launch() {
-    launched = true;
-    interval = setInterval(getData, 250);
-    sendData();
-    startBtn = document.getElementById('start');
-    startBtn.classList.remove('startBtn');
-    startBtn.classList.add('stopBtn');
-    startBtn.innerHTML = 'Stop';
+// Reset data
+function resetData() {
+    tempReads = [];
+    thrustReads = [];
+    timeReads = [];
 }
 
-function stop() {
-    launched = false;
-    clearInterval(interval);
-    startBtn = document.getElementById('start');
-    startBtn.classList.remove('stopBtn');
-    startBtn.classList.add('startBtn');
-    startBtn.innerHTML = 'Start';
+// Returns Specific Impuls
+function specificImpuls() {
+    var borderVal = 0.3;
+    var beginIdx = [];
+    var endIdx = [];
+    var thrustSum = 0;
+    var timeSum = 0;
+    var idxSum = 0;
+
+    for (var i = 0; i < thrustReads.length; i++) {
+        if (thrustReads[i] > borderVal && beginIdx.length == endIdx.length) {
+            beginIdx.push(i);
+            thrustSum += thrustReads[i];
+        } else if (thrustReads[i] > borderVal) {
+            thrustSum += thrustReads[i];
+        } else if (beginIdx.length > endIdx.length) {
+            endIdx.push(i-1);
+        }
+    }
+
+    for (var i = 0; i < beginIdx.length; i++) {
+        timeSum += timeReads[endIdx[i]] - timeReads[beginIdx[i]];
+        idxSum += endIdx[i] - beginIdx[i] + 1;
+    }
+    return thrustSum / idxSum * timeSum; 
 }
 
+// Creating chart
 var ctx = document.getElementById("chart").getContext('2d');
-
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
