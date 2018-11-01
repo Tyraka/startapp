@@ -8,13 +8,13 @@ var timeReads = [];
 
 // Add functionality to buttons
 $("#load").click(() => {
-    loadFromFile();
-    $(".graphContainer").show();
-    $("#spImp").show();
+    //loadFromFile();
+    $("#fileElem").click();
 });
 $("#reset").click(() => {
     resetData();
     updateChart(myChart);
+    $(".graphContainer").hide();
     $("#spImp").hide();
 });
 
@@ -27,14 +27,18 @@ function updateChart(chart) {
 }
 
 // Loads launch data from JSON file
-function loadFromFile() {
-    if(tempReads.length != 0) { return; }
-    fs.readFile('readouts.json', 'utf8', (err, readouts) => {
+function loadFromFile(files) {
+    fs.readFile(files[0].path, 'utf8', (err, readouts) => {
         if (err) {
             throw err;
         }
         
-        var parsedReadouts = JSON.parse(readouts);
+        try {
+            var parsedReadouts = JSON.parse(readouts);
+        } catch (err) {
+            alert(`Something is wrong with your file: \n ${err}`);
+            return;
+        }
 
         for (var index in parsedReadouts) {
             tempReads.push(parsedReadouts[index].temp);
@@ -42,6 +46,8 @@ function loadFromFile() {
             timeReads.push(parsedReadouts[index].time/1000);
         }        
         updateChart(myChart);
+        $(".graphContainer").show();
+        $("#spImp").show();
         $("#spImp").text("Special impuls: " + specificImpuls());
     });
 }
