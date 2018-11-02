@@ -41,14 +41,14 @@ function loadFromFile(files) {
         }
 
         for (var index in parsedReadouts) {
-            tempReads.push(parsedReadouts[index].temp);
+            tempReads.push(parsedReadouts[index].temp - 273);
             thrustReads.push(parsedReadouts[index].thrust);
-            timeReads.push(parsedReadouts[index].time/1000);
+            timeReads.push(parsedReadouts[index].time / 1000);
         }        
         updateChart(myChart);
         $(".graphContainer").show();
         $("#spImp").show();
-        $("#spImp").text("Special impuls: " + specificImpuls());
+        $("#spImp").text(`Special impuls: ${specificImpuls().toFixed(2)} N`);
     });
 }
 
@@ -83,7 +83,7 @@ function specificImpuls() {
         timeSum += timeReads[endIdx[i]] - timeReads[beginIdx[i]];
         idxSum += endIdx[i] - beginIdx[i] + 1;
     }
-    return thrustSum / idxSum * timeSum; 
+    return thrustSum / idxSum * timeSum * 10; 
 }
 
 // Creating chart

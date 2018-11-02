@@ -32,25 +32,23 @@ html {
 
 .btn {
     color: #fff;
-    width: 120px;
     border-radius: 3px;
     font-family: Helvetica;
     font-size: 18pt;
     text-decoration: none;
     cursor: pointer;
-    margin-left: auto;
-    margin-right: auto;
-    padding: 15px 33px;
+    margin: 25px 15px 25px 15px;
+    padding: 15px 33px 15px;
 }
 
 #load {
-    background: rgb(99, 160, 42);
-    border: 1px solid #243E2B;
+    background: #03DAC6;
+    border: 1px solid #018786;
 }
 
 #reset {
-    background: rgb(170, 89, 22);
-    border: 1px solid rgb(117, 33, 0);
+    background: #B00020;
+    border: 1px solid rgb(102, 0, 19);
 }
 
 button:focus {
